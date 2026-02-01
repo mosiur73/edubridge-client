@@ -65,16 +65,16 @@ const Navbar = ({
     
    
     {
-      title: "Blogs",
-      url: "/blogs",
-    },
-    {
-      title: "contact",
-      url: "/contact",
-    },
-    {
       title: "About",
       url: "/about",
+    },
+    {
+      title: "Tutor",
+      url: "/allTutor",
+    },
+    {
+      title: "Contact",
+      url: "/contact",
     },
     {
       title: "Dashboard",
@@ -92,7 +92,7 @@ const Navbar = ({
       <div className="container mx-auto px-10">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-24">
             {/* Logo */}
             <Link href={logo.url} className="flex items-center gap-2">
               <img
