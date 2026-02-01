@@ -15,14 +15,22 @@ import { userService } from "@/services/user.service";
 export default async function DashboardLayout({
   admin,
   student,
+  tutor,
 } : {
   children: React.ReactNode;
   admin: React.ReactNode;
   student: React.ReactNode;
+  tutor: React.ReactNode;
 }) {
  const {data}= await  userService.getSession()
     
       const userInfo=data.user
+
+      const roleBasedContent: Record<string, React.ReactNode> = {
+  [Roles.admin]: admin,
+  [Roles.student]: student,
+  [Roles.tutor]: tutor,
+};
       
   return (
     <SidebarProvider>
@@ -39,7 +47,10 @@ export default async function DashboardLayout({
           </Breadcrumb>
         </header>
        <div className="flex flex-1 flex-col gap-4 p-4">
-         {userInfo.role == Roles.admin ? admin  : student}
+         {/* {userInfo.role == Roles.admin ? admin  : student} */}
+         <div className="flex flex-1 flex-col gap-4 p-4">
+            {roleBasedContent[userInfo.role]}
+          </div>
        </div>
       </SidebarInset>
     </SidebarProvider>
