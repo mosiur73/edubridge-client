@@ -7,16 +7,16 @@ export const studentRoutes: Route[] = [
     title: "Student Dashboard",
     items: [
       {
+        title: "Dashboard", 
+        url: "/dashboard",
+      },
+      {
+        title: "Browser Tutor", 
+        url: "/dashboard/tutors",
+      },
+      {
         title: "My Bookings", // Upcoming & past sessions
         url: "/dashboard/bookings",
-      },
-      {
-        title: "Favorite Tutors", // (Bonus) saved tutor list
-        url: "/dashboard/favorites",
-      },
-      {
-        title: "Manage Profile", // Basic user info edit
-        url: "/dashboard/profile",
       },
        {
         title: "Home", 

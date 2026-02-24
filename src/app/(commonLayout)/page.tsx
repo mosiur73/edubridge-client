@@ -15,7 +15,7 @@ export default function Home() {
           <HowItWorksSection></HowItWorksSection>
           <CategoriesSection></CategoriesSection>
           <TestimonialsSection></TestimonialsSection>
-          {/* <FAQSection></FAQSection> */}
+          <FAQSection></FAQSection>
    </div>
   );
 }
