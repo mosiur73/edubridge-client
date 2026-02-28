@@ -295,13 +295,13 @@ export default function TutorDashboard() {
               </h2>
               <div className="space-y-3">
                 <Link
-                  href="/tutor/dashboard/profile"
+                  href="/tutor-dashboard/profile"
                   className="block w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-center transition-colors"
                 >
                   Edit Profile
                 </Link>
                 <Link
-                  href="/tutor/dashboard/availability"
+                  href="/tutor-dashboard/availability"
                   className="block w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg font-medium text-center transition-colors"
                 >
                   Set Availability

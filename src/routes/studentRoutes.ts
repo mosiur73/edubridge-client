@@ -11,12 +11,20 @@ export const studentRoutes: Route[] = [
         url: "/dashboard",
       },
       {
-        title: "Browser Tutor", 
+        title: "Browse Tutor", 
         url: "/dashboard/tutors",
       },
       {
-        title: "My Bookings", // Upcoming & past sessions
+        title: "My Bookings", 
         url: "/dashboard/bookings",
+      },
+      {
+        title: "My Reviews", 
+        url: "/dashboard/reviews",
+      },
+      {
+        title: "Profile", 
+        url: "/dashboard/profile",
       },
        {
         title: "Home", 

@@ -181,6 +181,8 @@ export const reviewApi = {
   },
 };
 
+
+
 // ==================== AVAILABILITY API ====================
 
 export const availabilityApi = {
@@ -219,6 +221,59 @@ export const categoryApi = {
 
 // ==================== ADMIN API ====================
 
+// export const adminApi = {
+//   getStats: async (): Promise<PlatformStats> => {
+//     const { data } = await api.get<ApiResponse<PlatformStats>>('/admin/stats');
+//     if (!data.data) throw new Error('Failed to fetch stats');
+//     return data.data;
+//   },
+
+//   getUsers: async (filters?: UserFilters): Promise<User[]> => {
+//     const { data } = await api.get<ApiResponse<User[]>>('/admin/users', {
+//       params: filters,
+//     });
+//     return data.data || [];
+//   },
+
+//   updateUserRole: async (userId: string, role: string): Promise<User> => {
+//     const { data } = await api.patch<ApiResponse<User>>(`/admin/users/${userId}/role`, {
+//       role,
+//     });
+//     if (!data.data) throw new Error('Failed to update role');
+//     return data.data;
+//   },
+
+//   deleteUser: async (userId: string): Promise<void> => {
+//     await api.delete(`/admin/users/${userId}`);
+//   },
+
+//   getAllBookings: async (status?: string): Promise<Booking[]> => {
+//     const { data } = await api.get<ApiResponse<Booking[]>>('/admin/bookings', {
+//       params: { status },
+//     });
+//     return data.data || [];
+//   },
+
+//   categories: {
+//     getAll: async (): Promise<Category[]> => {
+//       const { data } = await api.get<ApiResponse<Category[]>>('/admin/categories');
+//       return data.data || [];
+//     },
+
+//     create: async (input: CreateCategoryInput): Promise<Category> => {
+//       const { data } = await api.post<ApiResponse<Category>>('/admin/categories', input);
+//       if (!data.data) throw new Error('Failed to create category');
+//       return data.data;
+//     },
+
+//     update: async (id: string, input: UpdateCategoryInput): Promise<Category> => {
+//       const { data } = await api.put<ApiResponse<Category>>(`/admin/categories/${id}`, input);
+//       if (!data.data) throw new Error('Failed to update category');
+//       return data.data;
+//     },
+//   },
+// };
+
 export const adminApi = {
   getStats: async (): Promise<PlatformStats> => {
     const { data } = await api.get<ApiResponse<PlatformStats>>('/admin/stats');
@@ -231,6 +286,19 @@ export const adminApi = {
       params: filters,
     });
     return data.data || [];
+  },
+
+  // ✅ ADD THESE TWO METHODS:
+  banUser: async (userId: string, banData: { reason?: string; banExpires?: string }): Promise<User> => {
+    const { data } = await api.patch<ApiResponse<User>>(`/admin/users/${userId}/ban`, banData);
+    if (!data.data) throw new Error('Failed to ban user');
+    return data.data;
+  },
+
+  unbanUser: async (userId: string): Promise<User> => {
+    const { data } = await api.patch<ApiResponse<User>>(`/admin/users/${userId}/unban`);
+    if (!data.data) throw new Error('Failed to unban user');
+    return data.data;
   },
 
   updateUserRole: async (userId: string, role: string): Promise<User> => {
@@ -271,5 +339,22 @@ export const adminApi = {
     },
   },
 };
+
+
+// ==================== profile  ====================
+
+export const userApi = {
+  updateProfile: async (data: any): Promise<User> => {
+    const { data: response } = await api.put<ApiResponse<User>>('/user/profile', data);
+    return response.data!;
+  },
+  
+  changePassword: async (data: any): Promise<void> => {
+    await api.post('/user/change-password', data);
+  },
+};
+
+
+
 
 export default api;

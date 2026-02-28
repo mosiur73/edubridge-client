@@ -44,7 +44,7 @@ export default async function DashboardLayout({
             className="mr-2 data-[orientation=vertical]:h-4"
           />
           <Breadcrumb>
-            <h1 className="text-4xl text-teal-800">WellCome To Dashboard</h1>
+            <h1 className="text-4xl text-shadow-white">WellCome To Dashboard</h1>
           </Breadcrumb>
         </header>
        <div className="flex flex-1 flex-col gap-4 p-4">

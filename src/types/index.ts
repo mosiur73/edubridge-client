@@ -299,3 +299,23 @@ export const USER_ROLE_LABELS: Record<UserRole, string> = {
   TUTOR: 'Tutor',
   ADMIN: 'Admin',
 };
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: 'STUDENT' | 'TUTOR' | 'ADMIN';
+  image?: string;
+  emailVerified: boolean;
+  createdAt: string;
+  
+  // Add these fields ✅
+  banned?: boolean;
+  banReason?: string | null;
+  banExpires?: string | null;
+}
+
+export interface UserFilters {
+  role?: UserRole;
+  search?: string;
+}
