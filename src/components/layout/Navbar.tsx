@@ -94,8 +94,7 @@ const Navbar = ({ className }: NavbarProps) => {
                   </NavigationMenuItem>
                 ))}
 
-                {/* ✅ Login থাকলে role অনুযায়ী dashboard route */}
-                {/* ✅ Login না থাকলে /login এ redirect */}
+              
                 {!isPending && (
                   <NavigationMenuItem>
                     <NavigationMenuLink
@@ -112,16 +111,16 @@ const Navbar = ({ className }: NavbarProps) => {
             </NavigationMenu>
           </div>
 
-          {/* Right — Auth Buttons */}
+         
           <div className="flex items-center gap-8">
-            {/* ✅ Dark Mode Toggle — সবসময় দেখাবে */}
+          
             <ModeToggle />
 
             {isPending ? (
               // Loading skeleton
               <div className="h-9 w-9 animate-pulse rounded-full bg-muted" />
             ) : user ? (
-              // ✅ Logged in — Profile image + Dropdown
+           
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
@@ -144,10 +143,9 @@ const Navbar = ({ className }: NavbarProps) => {
                   </div>
                   <DropdownMenuSeparator />
 
-                  {/* Profile link — role অনুযায়ী */}
+              
                   <DropdownMenuItem asChild>
                     <Link
-                      // href={userRole === "TUTOR" ? "/tutor/profile" : "/dashboard/profile"}
                       href="/profile"
                       className="flex items-center gap-2 cursor-pointer"
                     >
@@ -180,7 +178,7 @@ const Navbar = ({ className }: NavbarProps) => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              // ✅ Logged out — Login + Register buttons
+              
               <>
                 <Button asChild variant="outline" size="sm">
                   <Link href="/login">Login</Link>
@@ -193,7 +191,7 @@ const Navbar = ({ className }: NavbarProps) => {
           </div>
         </nav>
 
-        {/* ===================== Mobile Menu ===================== */}
+        
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -241,7 +239,7 @@ const Navbar = ({ className }: NavbarProps) => {
                         </Link>
                       ))}
 
-                      {/* Dashboard — login থাকলে role অনুযায়ী, না থাকলে /login */}
+                     
                       {!isPending && (
                         <Link
                           href={user ? getDashboardLink(userRole) : "/login"}
@@ -278,7 +276,7 @@ const Navbar = ({ className }: NavbarProps) => {
 
                           {/* Profile */}
                           <Link
-                            // href={userRole === "TUTOR" ? "/tutor/profile" : "/dashboard/profile"}
+                            
                             href="/profile"
                             className="flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors"
                           >
