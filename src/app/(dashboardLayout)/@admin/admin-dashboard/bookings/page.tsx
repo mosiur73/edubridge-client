@@ -1,12 +1,14 @@
 'use client';
 
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from 'react';
 import { Calendar, Search, User, GraduationCap } from 'lucide-react';
 import { adminApi } from '@/lib/api';
 import type { Booking } from '@/types';
 
 export default function AdminBookingsPage() {
-  const [bookings, setBookings] = useState<Booking[]>([]);  // ✅ Type added
+  const [bookings, setBookings] = useState<Booking[]>([]);  
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('');
 
