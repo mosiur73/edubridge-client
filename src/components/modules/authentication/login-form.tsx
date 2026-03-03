@@ -56,12 +56,14 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
 
         toast.success("User Login Successfully", { id: toastId });
 
-        // ✅ Hard refresh to home page (loads session from cookie)
-        setTimeout(() => {
-          window.location.href = '/';
-        }, 800);
+        // ✅ Wait for cookie to be set, then hard refresh
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // ✅ Force full page reload to load session
+        window.location.href = '/';
 
       } catch (error) {
+        console.error('Login error:', error);
         toast.error("Something went wrong, please try again.", { id: toastId });
       }
     }

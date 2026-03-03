@@ -5,8 +5,27 @@
     
 // })
 
+
+
+
+// import { createAuthClient } from "better-auth/react";
+
+// export const authClient = createAuthClient({
+//   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:5000",
+// });
+
+
+
+
 import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:5000",
+  
+  // ✅ Add this to ensure cookies are sent
+  fetchOptions: {
+    credentials: 'include',
+  },
 });
+
+export const { useSession, signIn, signOut, signUp } = authClient;
