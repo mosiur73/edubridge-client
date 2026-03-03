@@ -29,14 +29,24 @@ const formSchema = z.object({
 
 export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
       const router = useRouter();
-    const handleGoogleLogin = async () => {
-    const data = authClient.signIn.social({
-      provider: "google",
-      callbackURL: "http://localhost:3000",
-    });
+  //   const handleGoogleLogin = async () => {
+  //   const data = authClient.signIn.social({
+  //     provider: "google",
+  //     callbackURL: "http://localhost:3000",
+  //   });
 
-    // console.log(data);
-  };
+  //   // console.log(data);
+  // };
+  const handleGoogleLogin = async () => {
+  const callbackURL = typeof window !== 'undefined' 
+    ? window.location.origin 
+    : process.env.NEXT_PUBLIC_FRONTEND_URL || 'http://localhost:3000';
+    
+  const data = authClient.signIn.social({
+    provider: "google",
+    callbackURL,
+  });
+};
     
    const form = useForm({
     defaultValues: {
