@@ -1,40 +1,60 @@
 export const dynamic = 'force-dynamic';
 
-import { AppSidebar } from "@/components/layout/app-sidebar"
-import {
-  Breadcrumb,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
+import { AppSidebar } from "@/components/layout/app-sidebar";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import { Roles } from "@/constants/role";
-import { userService } from "@/services/user.service";
-import Link from "next/link";
-
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
   admin,
   student,
   tutor,
-} : {
+}: {
   children: React.ReactNode;
   admin: React.ReactNode;
   student: React.ReactNode;
   tutor: React.ReactNode;
 }) {
- const {data}= await  userService.getSession()
+  const cookieStore = await cookies();
+  const backendURL = process.env.NEXT_PUBLIC_BETTER_AUTH_URL || 'http://localhost:5000';
+  
+  let session = null;
+  
+  try {
+    const response = await fetch(`${backendURL}/api/auth/get-session`, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+      cache: 'no-store',
+    });
     
-      const userInfo=data.user
+    if (response.ok) {
+      session = await response.json();
+    }
+  } catch (error) {
+    console.error('Session fetch error:', error);
+  }
 
-      const roleBasedContent: Record<string, React.ReactNode> = {
-  [Roles.admin]: admin,
-  [Roles.student]: student,
-  [Roles.tutor]: tutor,
-};
-      
+  // Redirect to login if no session
+  if (!session || !session.user) {
+    redirect('/login');
+  }
+
+  const userInfo = session.user;
+
+  const roleBasedContent: Record<string, React.ReactNode> = {
+    [Roles.admin]: admin,
+    [Roles.student]: student,
+    [Roles.tutor]: tutor,
+  };
+
   return (
     <SidebarProvider>
       <AppSidebar user={userInfo} />
@@ -46,16 +66,13 @@ export default async function DashboardLayout({
             className="mr-2 data-[orientation=vertical]:h-4"
           />
           <Breadcrumb>
-            <h1 className="text-4xl text-shadow-white">WellCome To Dashboard</h1>
+            <h1 className="text-4xl">Welcome To Dashboard</h1>
           </Breadcrumb>
         </header>
-       <div className="flex flex-1 flex-col gap-4 p-4">
-         {/* {userInfo.role == Roles.admin ? admin  : student} */}
-         <div className="flex flex-1 flex-col gap-4 p-4">
-            {roleBasedContent[userInfo.role]}
-          </div>
-       </div>
+        <div className="flex flex-1 flex-col gap-4 p-4">
+          {roleBasedContent[userInfo.role]}
+        </div>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

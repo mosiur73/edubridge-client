@@ -15,21 +15,17 @@
 // });
 
 
+
+
 import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:5000",
   
-  // ✅ CRITICAL: Ensure cookies are sent with every request
+  // ✅ Add this to ensure cookies are sent
   fetchOptions: {
     credentials: 'include',
-    onSuccess: (ctx) => {
-      // Refresh session after any auth action
-      if (typeof window !== 'undefined') {
-        setTimeout(() => {
-          window.location.reload();
-        }, 100);
-      }
-    },
   },
 });
+
+export const { useSession, signIn, signOut, signUp } = authClient;
