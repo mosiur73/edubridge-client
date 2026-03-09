@@ -28,13 +28,11 @@ import { useRouter } from "next/navigation";
 import { ModeToggle } from "./ModeToggle";
 import { authClient } from "@/lib/auth-client";
 
-
 const getDashboardLink = (role?: string | null) => {
   if (role === "TUTOR") return "/tutor-dashboard";
   if (role === "ADMIN") return "/admin-dashboard";
   return "/dashboard";
 };
-
 
 const publicMenu = [
   { title: "Home", url: "/" },
@@ -48,11 +46,13 @@ interface NavbarProps {
 }
 
 const Navbar = ({ className }: NavbarProps) => {
+  // ✅ Session hooks
   const { data: session, isPending } = authClient.useSession();
   const router = useRouter();
   const user = session?.user;
   const userRole = (user as any)?.role as string | undefined;
 
+  // ✅ Logout handler
   const handleLogout = async () => {
     await authClient.signOut();
     router.push("/");
@@ -62,10 +62,8 @@ const Navbar = ({ className }: NavbarProps) => {
   return (
     <section className={cn("py-4 border-b bg-background", className)}>
       <div className="w-full mx-auto px-10">
-
         {/* ===================== Desktop Menu ===================== */}
         <nav className="hidden items-center justify-between lg:flex">
-
           {/* Left — Logo + Nav Links */}
           <div className="flex items-center gap-16">
             {/* Logo */}
@@ -94,7 +92,6 @@ const Navbar = ({ className }: NavbarProps) => {
                   </NavigationMenuItem>
                 ))}
 
-              
                 {!isPending && (
                   <NavigationMenuItem>
                     <NavigationMenuLink
@@ -111,16 +108,15 @@ const Navbar = ({ className }: NavbarProps) => {
             </NavigationMenu>
           </div>
 
-         
+          {/* Right Side - Auth Section */}
           <div className="flex items-center gap-8">
-          
             <ModeToggle />
 
             {isPending ? (
               // Loading skeleton
               <div className="h-9 w-9 animate-pulse rounded-full bg-muted" />
             ) : user ? (
-           
+              // Logged in - Profile Dropdown
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
@@ -139,11 +135,13 @@ const Navbar = ({ className }: NavbarProps) => {
                   {/* User info */}
                   <div className="px-3 py-2">
                     <p className="text-sm font-medium truncate">{user.name}</p>
-                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {user.email}
+                    </p>
                   </div>
                   <DropdownMenuSeparator />
 
-              
+                  {/* Profile link */}
                   <DropdownMenuItem asChild>
                     <Link
                       href="/profile"
@@ -178,7 +176,7 @@ const Navbar = ({ className }: NavbarProps) => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              
+              // Not logged in - Login/Register buttons
               <>
                 <Button asChild variant="outline" size="sm">
                   <Link href="/login">Login</Link>
@@ -191,7 +189,7 @@ const Navbar = ({ className }: NavbarProps) => {
           </div>
         </nav>
 
-        
+        {/* ===================== Mobile Menu ===================== */}
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -239,7 +237,6 @@ const Navbar = ({ className }: NavbarProps) => {
                         </Link>
                       ))}
 
-                     
                       {!isPending && (
                         <Link
                           href={user ? getDashboardLink(userRole) : "/login"}
@@ -253,7 +250,7 @@ const Navbar = ({ className }: NavbarProps) => {
 
                     <div className="border-t pt-4">
                       {!isPending && user ? (
-                        // ✅ Logged in
+                        // Logged in
                         <div className="flex flex-col gap-3">
                           {/* User info */}
                           <div className="flex items-center gap-3">
@@ -265,18 +262,21 @@ const Navbar = ({ className }: NavbarProps) => {
                                   className="h-10 w-10 object-cover"
                                 />
                               ) : (
-                                <span>{user.name?.charAt(0)?.toUpperCase()}</span>
+                                <span>
+                                  {user.name?.charAt(0)?.toUpperCase()}
+                                </span>
                               )}
                             </div>
                             <div>
                               <p className="text-sm font-medium">{user.name}</p>
-                              <p className="text-xs text-muted-foreground">{user.email}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {user.email}
+                              </p>
                             </div>
                           </div>
 
                           {/* Profile */}
                           <Link
-                            
                             href="/profile"
                             className="flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors"
                           >
@@ -294,7 +294,7 @@ const Navbar = ({ className }: NavbarProps) => {
                           </button>
                         </div>
                       ) : (
-                        // ✅ Logged out
+                        // Logged out
                         <div className="flex flex-col gap-3">
                           <Button asChild variant="outline">
                             <Link href="/login">Login</Link>
@@ -311,7 +311,6 @@ const Navbar = ({ className }: NavbarProps) => {
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );
