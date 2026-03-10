@@ -1,4 +1,6 @@
-"use client"
+"use client";
+
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,14 +10,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {  Field,
+import {
+  Field,
   FieldDescription,
   FieldError,
   FieldGroup,
-  FieldLabel, } from "@/components/ui/field";
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
-import {  useForm } from "@tanstack/react-form";
+import { useForm } from "@tanstack/react-form";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -26,71 +30,92 @@ const formSchema = z.object({
   email: z.email(),
 });
 
+// ✅ Role অনুযায়ী dashboard route
+const getRoleRoute = (role?: string | null) => {
+  if (role === "TUTOR") return "/tutor-dashboard";
+  if (role === "ADMIN") return "/admin-dashboard";
+  return "/dashboard";
+};
 
 export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
-      const router = useRouter();
-  //   const handleGoogleLogin = async () => {
-  //   const data = authClient.signIn.social({
-  //     provider: "google",
-  //     callbackURL: "http://localhost:3000",
-  //   });
+  const router = useRouter();
 
-  //   // console.log(data);
-  // };
+  // ✅ Already logged in থাকলে dashboard এ redirect
+  const { data: session, isPending } = authClient.useSession();
+
+  useEffect(() => {
+    if (!isPending && session?.user) {
+      const role = (session.user as any)?.role;
+      router.push(getRoleRoute(role));
+    }
+  }, [session, isPending]);
+
+  // ✅ Google login
   const handleGoogleLogin = async () => {
-  const callbackURL = typeof window !== 'undefined' 
-    ? window.location.origin 
-    : process.env.NEXT_PUBLIC_FRONTEND_URL || 'http://localhost:3000';
-    
-  const data = authClient.signIn.social({
-    provider: "google",
-    callbackURL,
-  });
-};
-    
-   const form = useForm({
+    const callbackURL =
+      typeof window !== "undefined"
+        ? window.location.origin
+        : process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
+
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL,
+    });
+  };
+
+  const form = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
-     validators: {
+    validators: {
       onSubmit: formSchema,
     },
-    onSubmit: async ({value}) =>{
-          const toastId = toast.loading("Login in user");
+    onSubmit: async ({ value }) => {
+      const toastId = toast.loading("Logging in...");
       try {
-        const { data, error } = await authClient.signIn.email(value);
+        const { data, error } = await authClient.signIn.email({
+          email: value.email,
+          password: value.password,
+        });
 
         if (error) {
-          toast.error(error.message, { id: toastId });
+          toast.error(error.message || "Login failed", { id: toastId });
           return;
         }
 
-        toast.success("User Login Successfully", { id: toastId });
-          router.push("/");
-      } catch (error) {
-        toast.error("Something went wrong, please try again.", { id: toastId });
+        toast.success("Login successful!", { id: toastId });
+
+        // ✅ Role অনুযায়ী redirect
+        const role = (data?.user as any)?.role;
+        router.push(getRoleRoute(role));
+        router.refresh();
+      } catch {
+        toast.error("Something went wrong, please try again.", {
+          id: toastId,
+        });
       }
-    }
-  })
+    },
+  });
 
   return (
     <Card {...props}>
       <CardHeader>
-        <CardTitle>Create an account</CardTitle>
+        <CardTitle>Welcome back</CardTitle>
         <CardDescription>
-          Enter your information below to create your account
+          Enter your credentials to login
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form
-        id="register-form"
-        onSubmit={(e) =>{
-          e.preventDefault();
-          form.handleSubmit()
-        }}>
-        <FieldGroup>
-             <form.Field
+          id="login-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            form.handleSubmit();
+          }}
+        >
+          <FieldGroup>
+            <form.Field
               name="email"
               children={(field) => {
                 const isInvalid =
@@ -112,7 +137,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
                 );
               }}
             />
-             <form.Field
+            <form.Field
               name="password"
               children={(field) => {
                 const isInvalid =
@@ -134,25 +159,28 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
                 );
               }}
             />
-        </FieldGroup>
+          </FieldGroup>
         </form>
       </CardContent>
       <CardFooter className="flex flex-col gap-5">
-      <Button form="register-form" type="submit" className="w-full">
+        <Button form="login-form" type="submit" className="w-full">
           Login
         </Button>
-         <Button className="w-full"
-                  onClick={() => handleGoogleLogin()}
-                  variant="outline"
-                  type="button"
-                >
-                  Continue with Google
-                </Button>
-                 <FieldDescription className="text-center">
-         Don't have an account? <Link href="/register">SignUp</Link>
-         </FieldDescription>
+        <Button
+          className="w-full"
+          onClick={handleGoogleLogin}
+          variant="outline"
+          type="button"
+        >
+          Continue with Google
+        </Button>
+        <FieldDescription className="text-center">
+          Don't have an account?{" "}
+          <Link href="/register" className="underline">
+            Sign Up
+          </Link>
+        </FieldDescription>
       </CardFooter>
-      
     </Card>
   );
 }
