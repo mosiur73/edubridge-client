@@ -20,11 +20,11 @@
 import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
-  baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:5000",
-  
-  // ✅ Add this to ensure cookies are sent
+  // ✅ window.location.origin use করলে same-origin হয়
+  // next.config.ts এ rewrite করা আছে তাই /api/auth/* → backend এ যাবে
+  baseURL: typeof window !== "undefined" ? window.location.origin : "",
   fetchOptions: {
-    credentials: 'include',
+    credentials: "include",
   },
 });
 
