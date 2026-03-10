@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Menu, LogOut, User, LayoutDashboard } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -26,7 +27,6 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ModeToggle } from "./ModeToggle";
-import { authClient } from "@/lib/auth-client";
 
 const getDashboardLink = (role?: string | null) => {
   if (role === "TUTOR") return "/tutor-dashboard";
@@ -46,27 +46,59 @@ interface NavbarProps {
 }
 
 const Navbar = ({ className }: NavbarProps) => {
-  // ✅ Session hooks
-  const { data: session, isPending } = authClient.useSession();
+  const [user, setUser] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const user = session?.user;
-  const userRole = (user as any)?.role as string | undefined;
 
-  // ✅ Logout handler
-  const handleLogout = async () => {
-    await authClient.signOut();
-    router.push("/");
+  // ✅ Load user from localStorage
+  useEffect(() => {
+    try {
+      const storedUser = localStorage.getItem('user');
+      const isAuth = localStorage.getItem('isAuthenticated');
+      
+      if (storedUser && isAuth === 'true') {
+        setUser(JSON.parse(storedUser));
+      }
+    } catch (error) {
+      console.error('Error loading user:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const userRole = user?.role;
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('isAuthenticated');
+    setUser(null);
+    router.push('/');
     router.refresh();
   };
+
+  // ✅ Loading state
+  if (isLoading) {
+    return (
+      <section className={cn("py-4 border-b bg-background", className)}>
+        <div className="w-full mx-auto px-10">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-32 bg-muted animate-pulse rounded" />
+            </div>
+            <div className="h-9 w-20 bg-muted animate-pulse rounded" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className={cn("py-4 border-b bg-background", className)}>
       <div className="w-full mx-auto px-10">
-        {/* ===================== Desktop Menu ===================== */}
+        {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">
-          {/* Left — Logo + Nav Links */}
+          {/* Left - Logo + Nav Links */}
           <div className="flex items-center gap-16">
-            {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
               <img
                 src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg"
@@ -78,7 +110,6 @@ const Navbar = ({ className }: NavbarProps) => {
               </span>
             </Link>
 
-            {/* Nav Links */}
             <NavigationMenu>
               <NavigationMenuList>
                 {publicMenu.map((item) => (
@@ -92,31 +123,25 @@ const Navbar = ({ className }: NavbarProps) => {
                   </NavigationMenuItem>
                 ))}
 
-                {!isPending && (
-                  <NavigationMenuItem>
-                    <NavigationMenuLink
-                      asChild
-                      className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
-                    >
-                      <Link href={user ? getDashboardLink(userRole) : "/login"}>
-                        Dashboard
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                )}
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    asChild
+                    className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
+                  >
+                    <Link href={user ? getDashboardLink(userRole) : "/login"}>
+                      Dashboard
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </div>
 
-          {/* Right Side - Auth Section */}
+          {/* Right - Auth Section */}
           <div className="flex items-center gap-8">
             <ModeToggle />
 
-            {isPending ? (
-              // Loading skeleton
-              <div className="h-9 w-9 animate-pulse rounded-full bg-muted" />
-            ) : user ? (
-              // Logged in - Profile Dropdown
+            {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
@@ -132,7 +157,6 @@ const Navbar = ({ className }: NavbarProps) => {
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
-                  {/* User info */}
                   <div className="px-3 py-2">
                     <p className="text-sm font-medium truncate">{user.name}</p>
                     <p className="text-xs text-muted-foreground truncate">
@@ -141,7 +165,6 @@ const Navbar = ({ className }: NavbarProps) => {
                   </div>
                   <DropdownMenuSeparator />
 
-                  {/* Profile link */}
                   <DropdownMenuItem asChild>
                     <Link
                       href="/profile"
@@ -152,7 +175,6 @@ const Navbar = ({ className }: NavbarProps) => {
                     </Link>
                   </DropdownMenuItem>
 
-                  {/* Dashboard link */}
                   <DropdownMenuItem asChild>
                     <Link
                       href={getDashboardLink(userRole)}
@@ -165,7 +187,6 @@ const Navbar = ({ className }: NavbarProps) => {
 
                   <DropdownMenuSeparator />
 
-                  {/* Logout */}
                   <DropdownMenuItem
                     onClick={handleLogout}
                     className="flex items-center gap-2 text-red-600 dark:text-red-400 cursor-pointer focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-900/20"
@@ -176,7 +197,6 @@ const Navbar = ({ className }: NavbarProps) => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              // Not logged in - Login/Register buttons
               <>
                 <Button asChild variant="outline" size="sm">
                   <Link href="/login">Login</Link>
@@ -189,10 +209,9 @@ const Navbar = ({ className }: NavbarProps) => {
           </div>
         </nav>
 
-        {/* ===================== Mobile Menu ===================== */}
+        {/* Mobile Menu */}
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
-            {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
               <img
                 src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg"
@@ -205,10 +224,8 @@ const Navbar = ({ className }: NavbarProps) => {
             </Link>
 
             <div className="flex items-center gap-2">
-              {/* Dark Mode Toggle */}
               <ModeToggle />
 
-              {/* Mobile Sheet */}
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="outline" size="icon">
@@ -225,7 +242,6 @@ const Navbar = ({ className }: NavbarProps) => {
                   </SheetHeader>
 
                   <div className="flex flex-col gap-6 p-4">
-                    {/* Mobile Nav Links */}
                     <div className="flex flex-col gap-4">
                       {publicMenu.map((item) => (
                         <Link
@@ -237,22 +253,18 @@ const Navbar = ({ className }: NavbarProps) => {
                         </Link>
                       ))}
 
-                      {!isPending && (
-                        <Link
-                          href={user ? getDashboardLink(userRole) : "/login"}
-                          className="flex items-center gap-2 text-md font-semibold hover:text-primary transition-colors"
-                        >
-                          <LayoutDashboard className="h-4 w-4" />
-                          Dashboard
-                        </Link>
-                      )}
+                      <Link
+                        href={user ? getDashboardLink(userRole) : "/login"}
+                        className="flex items-center gap-2 text-md font-semibold hover:text-primary transition-colors"
+                      >
+                        <LayoutDashboard className="h-4 w-4" />
+                        Dashboard
+                      </Link>
                     </div>
 
                     <div className="border-t pt-4">
-                      {!isPending && user ? (
-                        // Logged in
+                      {user ? (
                         <div className="flex flex-col gap-3">
-                          {/* User info */}
                           <div className="flex items-center gap-3">
                             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold overflow-hidden">
                               {user.image ? (
@@ -262,9 +274,7 @@ const Navbar = ({ className }: NavbarProps) => {
                                   className="h-10 w-10 object-cover"
                                 />
                               ) : (
-                                <span>
-                                  {user.name?.charAt(0)?.toUpperCase()}
-                                </span>
+                                <span>{user.name?.charAt(0)?.toUpperCase()}</span>
                               )}
                             </div>
                             <div>
@@ -275,7 +285,6 @@ const Navbar = ({ className }: NavbarProps) => {
                             </div>
                           </div>
 
-                          {/* Profile */}
                           <Link
                             href="/profile"
                             className="flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors"
@@ -284,7 +293,6 @@ const Navbar = ({ className }: NavbarProps) => {
                             Profile
                           </Link>
 
-                          {/* Logout */}
                           <button
                             onClick={handleLogout}
                             className="flex items-center gap-2 text-sm font-medium text-red-600 dark:text-red-400 hover:opacity-80 transition-opacity"
@@ -294,7 +302,6 @@ const Navbar = ({ className }: NavbarProps) => {
                           </button>
                         </div>
                       ) : (
-                        // Logged out
                         <div className="flex flex-col gap-3">
                           <Button asChild variant="outline">
                             <Link href="/login">Login</Link>

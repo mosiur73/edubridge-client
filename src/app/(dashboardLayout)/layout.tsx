@@ -1,5 +1,7 @@
-export const dynamic = 'force-dynamic';
+"use client";
 
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
@@ -9,10 +11,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Roles } from "@/constants/role";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
-export default async function DashboardLayout({
+export default function DashboardLayout({
   admin,
   student,
   tutor,
@@ -22,32 +22,35 @@ export default async function DashboardLayout({
   student: React.ReactNode;
   tutor: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const backendURL = process.env.NEXT_PUBLIC_BETTER_AUTH_URL || 'http://localhost:5000';
-  
-  let session = null;
-  
-  try {
-    const response = await fetch(`${backendURL}/api/auth/get-session`, {
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-      cache: 'no-store',
-    });
-    
-    if (response.ok) {
-      session = await response.json();
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    const isAuth = localStorage.getItem('isAuthenticated');
+
+    if (!storedUser || isAuth !== 'true') {
+      router.push('/login');
+      return;
     }
-  } catch (error) {
-    console.error('Session fetch error:', error);
-  }
 
-  // Redirect to login if no session
-  if (!session || !session.user) {
-    redirect('/login');
-  }
+    try {
+      setUser(JSON.parse(storedUser));
+    } catch (error) {
+      router.push('/login');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [router]);
 
-  const userInfo = session.user;
+  if (isLoading || !user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
+    );
+  }
 
   const roleBasedContent: Record<string, React.ReactNode> = {
     [Roles.admin]: admin,
@@ -57,7 +60,7 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <AppSidebar user={userInfo} />
+      <AppSidebar user={user} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
@@ -70,7 +73,7 @@ export default async function DashboardLayout({
           </Breadcrumb>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
-          {roleBasedContent[userInfo.role]}
+          {roleBasedContent[user.role] || student}
         </div>
       </SidebarInset>
     </SidebarProvider>
