@@ -20,9 +20,9 @@
 import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
-  // ✅ window.location.origin use করলে same-origin হয়
-  // next.config.ts এ rewrite করা আছে তাই /api/auth/* → backend এ যাবে
-  baseURL: typeof window !== "undefined" ? window.location.origin : "",
+  // ✅ baseURL খালি রাখলে same-origin /api/auth/* use করবে
+  // next.config.ts এর rewrite সেটাকে backend এ forward করবে
+  baseURL: "",
   fetchOptions: {
     credentials: "include",
   },
