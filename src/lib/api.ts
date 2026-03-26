@@ -24,7 +24,10 @@ import type {
 } from '@/types';
 
 // Get API URL from environment
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+// const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = typeof window !== 'undefined' 
+  ? '/api'
+  : process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 // Create axios instance
 export const api = axios.create({

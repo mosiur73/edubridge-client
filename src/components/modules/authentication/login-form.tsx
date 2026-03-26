@@ -18,7 +18,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { authClient } from "@/lib/auth-client";
+import { authClient, signInWithGoogle } from "@/lib/auth-client";
 import { useForm } from "@tanstack/react-form";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -41,18 +41,6 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
       router.push("/");
     }
   }, [session, isPending]);
-
-  const handleGoogleLogin = async () => {
-    const callbackURL =
-      typeof window !== "undefined"
-        ? window.location.origin
-        : process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
-
-    await authClient.signIn.social({
-      provider: "google",
-      callbackURL,
-    });
-  };
 
   const form = useForm({
     defaultValues: {
@@ -154,7 +142,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
         </Button>
         <Button
           className="w-full"
-          onClick={handleGoogleLogin}
+          onClick={() => signInWithGoogle()}
           variant="outline"
           type="button"
         >
