@@ -30,27 +30,18 @@ const formSchema = z.object({
   email: z.email(),
 });
 
-// ✅ Role অনুযায়ী dashboard route
-const getRoleRoute = (role?: string | null) => {
-  if (role === "TUTOR") return "/tutor-dashboard";
-  if (role === "ADMIN") return "/admin-dashboard";
-  return "/dashboard";
-};
-
 export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter();
 
-  // ✅ Already logged in থাকলে dashboard এ redirect
+
   const { data: session, isPending } = authClient.useSession();
 
   useEffect(() => {
     if (!isPending && session?.user) {
-      const role = (session.user as any)?.role;
-      router.push(getRoleRoute(role));
+      router.push("/");
     }
   }, [session, isPending]);
 
-  // ✅ Google login
   const handleGoogleLogin = async () => {
     const callbackURL =
       typeof window !== "undefined"
@@ -85,10 +76,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
         }
 
         toast.success("Login successful!", { id: toastId });
-
-        // ✅ Role অনুযায়ী redirect
-        const role = (data?.user as any)?.role;
-        router.push(getRoleRoute(role));
+        router.push("/");
         router.refresh();
       } catch {
         toast.error("Something went wrong, please try again.", {
@@ -102,9 +90,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
     <Card {...props}>
       <CardHeader>
         <CardTitle>Welcome back</CardTitle>
-        <CardDescription>
-          Enter your credentials to login
-        </CardDescription>
+        <CardDescription>Enter your credentials to login</CardDescription>
       </CardHeader>
       <CardContent>
         <form
