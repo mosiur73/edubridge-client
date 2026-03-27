@@ -16,7 +16,6 @@ export default async function DashboardLayout({
   admin,
   student,
   tutor,
-  
 }: {
   children: React.ReactNode;
   admin: React.ReactNode;
@@ -24,28 +23,40 @@ export default async function DashboardLayout({
   tutor: React.ReactNode;
 }) {
   const cookieStore = await cookies();
-  const backendURL = process.env.NEXT_PUBLIC_BETTER_AUTH_URL || 'http://localhost:5000';
+
+  // ✅ Server side এ NEXT_PUBLIC_BACKEND_URL use করুন
+  const backendURL =
+    process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+
+  // ✅ Cookie সঠিকভাবে forward করুন
+ const cookieHeader = cookieStore
+  .getAll()
+  .map((c) => `${c.name}=${c.value}`)
+  .join("; ");
+
+console.log("Cookies found:", cookieStore.getAll().map(c => c.name));
+console.log("Cookie header:", cookieHeader);
+
+let session = null; // ← এই line যোগ করুন
   
-  let session = null;
-  
+
   try {
     const response = await fetch(`${backendURL}/api/auth/get-session`, {
       headers: {
-        Cookie: cookieStore.toString(),
+        cookie: cookieHeader,
       },
-      cache: 'no-store',
+      cache: "no-store",
     });
-    
+
     if (response.ok) {
       session = await response.json();
     }
   } catch (error) {
-    console.error('Session fetch error:', error);
+    console.error("Session fetch error:", error);
   }
 
-  // Redirect to login if no session
   if (!session || !session.user) {
-    redirect('/login');
+    redirect("/login");
   }
 
   const userInfo = session.user;
@@ -55,6 +66,8 @@ export default async function DashboardLayout({
     [Roles.student]: student,
     [Roles.tutor]: tutor,
   };
+
+  
 
   return (
     <SidebarProvider>
