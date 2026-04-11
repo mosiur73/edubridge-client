@@ -1,10 +1,12 @@
 import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000",
-  fetchOptions: { 
-    credentials: "include" 
-  },
+  // ✅ Mentor pattern
+  baseURL: process.env.NEXT_PUBLIC_APP_URL
+    ? process.env.NEXT_PUBLIC_APP_URL
+    : "/api/auth",
+  fetchOptions: { credentials: "include" },
+
   plugins: [
     {
       id: "next-cookies-request",

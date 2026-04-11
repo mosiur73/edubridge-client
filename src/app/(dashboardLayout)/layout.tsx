@@ -24,28 +24,18 @@ export default async function DashboardLayout({
 }) {
   const cookieStore = await cookies();
 
-  // ✅ Server side এ NEXT_PUBLIC_BACKEND_URL use করুন
   const backendURL =
     process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
 
-  // ✅ Cookie সঠিকভাবে forward করুন
- const cookieHeader = cookieStore
-  .getAll()
-  .map((c) => `${c.name}=${c.value}`)
-  .join("; ");
-
-console.log("Cookies found:", cookieStore.getAll().map(c => c.name));
-console.log("Cookie header:", cookieHeader);
-
-let session = null; // ← এই line যোগ করুন
-  
+  let session = null;
 
   try {
+    // ✅ Mentor pattern — cookieStore.toString() use করুন
     const response = await fetch(`${backendURL}/api/auth/get-session`, {
-      headers: {
-        cookie: cookieHeader,
-      },
       cache: "no-store",
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
     });
 
     if (response.ok) {
@@ -66,8 +56,6 @@ let session = null; // ← এই line যোগ করুন
     [Roles.student]: student,
     [Roles.tutor]: tutor,
   };
-
-  
 
   return (
     <SidebarProvider>
