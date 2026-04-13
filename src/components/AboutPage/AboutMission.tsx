@@ -9,7 +9,7 @@ export function AboutMission() {
           <div>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Our Mission</h2>
             <p className="text-lg text-foreground/70 mb-6 leading-relaxed">
-              We believe that quality education should be accessible to everyone, regardless of background or location. SkillBridge was founded with a simple mission: to bridge the gap between passionate learners and expert educators.
+              We believe that quality education should be accessible to everyone, regardless of background or location. EduBridge was founded with a simple mission: to bridge the gap between passionate learners and expert educators.
             </p>
             <p className="text-lg text-foreground/70 mb-6 leading-relaxed">
               Our platform empowers individuals to take control of their learning journey while giving educators the tools to share their knowledge and build meaningful connections with students around the world.

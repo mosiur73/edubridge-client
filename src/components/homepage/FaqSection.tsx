@@ -60,7 +60,7 @@ export function FAQSection() {
               Frequently Asked Questions
             </h2>
             <p className="text-lg text-foreground/60">
-              Find answers to common questions about SkillBridge
+              Find answers to common questions about EduBridge
             </p>
           </div>
 

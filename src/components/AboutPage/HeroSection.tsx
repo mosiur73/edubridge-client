@@ -8,7 +8,7 @@ export function AboutHero() {
           Connecting Learners with <span className="text-primary">Expert Tutors</span>
         </h1>
         <p className="text-xl md:text-2xl text-foreground/70 mb-8 leading-relaxed">
-          SkillBridge is a community-driven platform designed to democratize education and empower both learners and educators to achieve their full potential.
+          EduBridge is a community-driven platform designed to democratize education and empower both learners and educators to achieve their full potential.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <div className="flex items-center justify-center gap-2">

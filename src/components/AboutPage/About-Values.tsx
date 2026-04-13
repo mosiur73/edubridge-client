@@ -17,7 +17,7 @@ export function AboutValues() {
     {
       number: '03',
       title: 'Community',
-      description: 'At SkillBridge, we\'re more than a platform. We\'re a vibrant community of learners, educators, and lifelong students.',
+      description: 'At EduBridge, we\'re more than a platform. We\'re a vibrant community of learners, educators, and lifelong students.',
       icon: '🤝',
     },
     {
@@ -46,7 +46,7 @@ export function AboutValues() {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Our Core Values</h2>
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-            These principles guide every decision we make and everything we build at SkillBridge.
+            These principles guide every decision we make and everything we build at EduBridge.
           </p>
         </div>
 

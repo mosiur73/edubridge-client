@@ -14,7 +14,7 @@ export function Footer() {
               <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/60 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">SB</span>
               </div>
-              <span className="font-bold text-lg text-foreground">SkillBridge</span>
+              <span className="font-bold text-lg text-foreground">EduBridge</span>
             </Link>
             <p className="text-sm text-foreground/60">
               Connecting learners with expert tutors. Learn anything, anytime, anywhere.
@@ -106,7 +106,7 @@ export function Footer() {
         {/* Bottom Section */}
         <div className="border-t border-border py-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-foreground/60">
-            © {currentYear} SkillBridge. All rights reserved.
+            © {currentYear} EduBridge. All rights reserved.
           </p>
           <div className="flex gap-6">
             <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">

@@ -22,7 +22,7 @@ export function ContactHero() {
         </h1>
 
         <p className="text-xl text-foreground/70 mb-8 max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          Have questions about SkillBridge? Want to become a tutor? Or just want to say hello? We'd love to hear from you. Get in touch with our team today.
+          Have questions about EduBridge? Want to become a tutor? Or just want to say hello? We'd love to hear from you. Get in touch with our team today.
         </p>
 
         {/* CTA buttons with hover animation */}

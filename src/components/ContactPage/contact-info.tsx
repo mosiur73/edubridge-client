@@ -7,9 +7,9 @@ export function ContactInfoSection() {
     {
       icon: Mail,
       title: 'Email',
-      details: 'support@skillbridge.com',
+      details: 'support@EduBridge.com',
       subtitle: 'We reply within 24 hours',
-      link: 'mailto:support@skillbridge.com',
+      link: 'mailto:support@EduBridge.com',
       delay: '0.1s',
     },
     {
@@ -44,7 +44,7 @@ export function ContactInfoSection() {
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-foreground mb-4 animate-fade-in-up">Other Ways to Reach Us</h2>
           <p className="text-lg text-foreground/70 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            Multiple channels to connect with SkillBridge support
+            Multiple channels to connect with EduBridge support
           </p>
         </div>
 

@@ -112,7 +112,7 @@ export default function HowItWorksSection() {
                 Ready to get started?
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Join thousands of students already learning with SkillBridge
+                Join thousands of students already learning with EduBridge
               </p>
             </div>
             <button className="px-8 py-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 whitespace-nowrap">

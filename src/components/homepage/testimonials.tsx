@@ -16,7 +16,7 @@ const testimonials: Testimonial[] = [
     id: 1,
     name: 'Jessica Wong',
     role: 'College Student',
-    content: 'SkillBridge completely transformed my learning experience. The tutors are incredibly knowledgeable and patient. I went from struggling with calculus to scoring an A!',
+    content: 'EduBridge completely transformed my learning experience. The tutors are incredibly knowledgeable and patient. I went from struggling with calculus to scoring an A!',
     rating: 5,
     avatar: '👩‍🎓',
   },
@@ -32,7 +32,7 @@ const testimonials: Testimonial[] = [
     id: 3,
     name: 'Emma Thompson',
     role: 'Professional',
-    content: 'Preparing for my professional certifications was daunting, but my tutor made it manageable and even enjoyable. Highly recommend SkillBridge!',
+    content: 'Preparing for my professional certifications was daunting, but my tutor made it manageable and even enjoyable. Highly recommend EduBridge!',
     rating: 5,
     avatar: '👩‍💻',
   },
@@ -40,7 +40,7 @@ const testimonials: Testimonial[] = [
     id: 4,
     name: 'Lucas Chen',
     role: 'High School Student',
-    content: 'The platform is easy to use and the tutors really care about your progress. My grades have improved significantly since I started using SkillBridge.',
+    content: 'The platform is easy to use and the tutors really care about your progress. My grades have improved significantly since I started using EduBridge.',
     rating: 5,
     avatar: '👨‍🎓',
   },
@@ -56,7 +56,7 @@ const testimonials: Testimonial[] = [
     id: 6,
     name: 'James Wilson',
     role: 'Parent',
-    content: 'My son was falling behind in math, but after just 2 months with a tutor from SkillBridge, he\'s now at the top of his class. Worth every penny!',
+    content: 'My son was falling behind in math, but after just 2 months with a tutor from EduBridge, he\'s now at the top of his class. Worth every penny!',
     rating: 5,
     avatar: '👨‍👦',
   },
@@ -73,7 +73,7 @@ export function TestimonialsSection() {
               What Our Students Say
             </h2>
             <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
-              Join thousands of learners who have achieved their goals with SkillBridge
+              Join thousands of learners who have achieved their goals with EduBridge
             </p>
           </div>
 
