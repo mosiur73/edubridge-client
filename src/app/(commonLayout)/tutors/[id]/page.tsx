@@ -429,12 +429,21 @@ export default function TutorProfilePage() {
       </div>
 
       {/* Booking Modal */}
-      {showBookingModal && (
+      {/* {showBookingModal && (
         <BookingModal
           tutor={tutor}
           onClose={() => setShowBookingModal(false)}
         />
-      )}
+      )} */}
+           {showBookingModal && (
+  <BookingModal
+    tutorId={tutor.id}
+    tutorName={tutor.user?.name || "Tutor"}
+    hourlyRate={tutor.hourlyRate}
+    subjects={tutor.subjects || []}
+    onClose={() => setShowBookingModal(false)}
+  />
+)}
     </div>
   );
 }
