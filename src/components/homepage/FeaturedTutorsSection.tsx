@@ -6,7 +6,7 @@ import { Star, Clock, ArrowRight, Award } from 'lucide-react';
 
 interface Tutor {
   id: string;
-  name: string;
+  user?: { name: string };
   headline: string;
   rating: number;
   totalReviews: number;
@@ -19,72 +19,17 @@ export default function FeaturedTutorsSection() {
   const [tutors, setTutors] = useState<Tutor[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Mock data
-    setTutors([
-      {
-        id: '1',
-        name: 'Dr. Sarah Johnson',
-        headline: 'Mathematics PhD | 15 Years Experience',
-        rating: 4.9,
-        totalReviews: 234,
-        hourlyRate: 75,
-        subjects: ['Calculus', 'Linear Algebra', 'Statistics'],
-        totalSessions: 450,
-      },
-      {
-        id: '2',
-        name: 'Prof. Michael Chen',
-        headline: 'Computer Science Expert | MIT Graduate',
-        rating: 5.0,
-        totalReviews: 189,
-        hourlyRate: 85,
-        subjects: ['Python', 'JavaScript', 'Data Structures'],
-        totalSessions: 380,
-      },
-      {
-        id: '3',
-        name: 'Emma Williams',
-        headline: 'English Literature Specialist',
-        rating: 4.8,
-        totalReviews: 156,
-        hourlyRate: 60,
-        subjects: ['English', 'Writing', 'Essay Prep'],
-        totalSessions: 290,
-      },
-      {
-        id: '4',
-        name: 'Dr. James Rodriguez',
-        headline: 'Physics & Chemistry Professor',
-        rating: 4.9,
-        totalReviews: 203,
-        hourlyRate: 70,
-        subjects: ['Physics', 'Chemistry', 'Biology'],
-        totalSessions: 420,
-      },
-      {
-        id: '5',
-        name: 'Lisa Anderson',
-        headline: 'French Language Native Speaker',
-        rating: 4.7,
-        totalReviews: 98,
-        hourlyRate: 50,
-        subjects: ['French', 'Spanish', 'Linguistics'],
-        totalSessions: 210,
-      },
-      {
-        id: '6',
-        name: 'David Kim',
-        headline: 'Business & Economics Consultant',
-        rating: 4.9,
-        totalReviews: 167,
-        hourlyRate: 65,
-        subjects: ['Economics', 'Business', 'Finance'],
-        totalSessions: 340,
-      },
-    ]);
-    setLoading(false);
-  }, []);
+ useEffect(() => {
+  fetch("/api/tutors?limit=6", {
+    credentials: "include",
+  })
+    .then((res) => res.json())
+   .then((data) => {
+  setTutors((data.data || []).slice(0, 6));
+  setLoading(false);
+})
+    .catch(() => setLoading(false));
+}, []);
 
   if (loading) {
     return (
@@ -128,7 +73,7 @@ export default function FeaturedTutorsSection() {
                 <div className="absolute -bottom-10 left-6">
                   <div className="w-20 h-20 rounded-full bg-white dark:bg-gray-800 border-4 border-white dark:border-gray-800 shadow-lg flex items-center justify-center">
                     <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                      {tutor.name.charAt(0)}
+                     {tutor.user?.name || "Tutor"}
                     </span>
                   </div>
                 </div>
@@ -145,7 +90,7 @@ export default function FeaturedTutorsSection() {
                 {/* Name & Headline */}
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    {tutor.name}
+                   {tutor.user?.name || "Tutor"}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{tutor.headline}</p>
                 </div>

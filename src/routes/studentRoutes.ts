@@ -22,10 +22,10 @@ export const studentRoutes: Route[] = [
         title: "My Reviews", 
         url: "/dashboard/reviews",
       },
-      {
-        title: "Profile", 
-        url: "/dashboard/profile",
-      },
+      // {
+      //   title: "Profile", 
+      //   url: "/dashboard/profile",
+      // },
        {
         title: "Home", 
         url: "/",
