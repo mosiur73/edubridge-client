@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Star, Clock, ArrowRight, Award } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface Tutor {
   id: string;
@@ -15,21 +16,32 @@ interface Tutor {
   totalSessions: number;
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
 export default function FeaturedTutorsSection() {
   const [tutors, setTutors] = useState<Tutor[]>([]);
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
-  fetch("/api/tutors?limit=6", {
-    credentials: "include",
-  })
-    .then((res) => res.json())
-   .then((data) => {
-  setTutors((data.data || []).slice(0, 6));
-  setLoading(false);
-})
-    .catch(() => setLoading(false));
-}, []);
+  useEffect(() => {
+    fetch('/api/tutors?limit=6', { credentials: 'include' })
+      .then((res) => res.json())
+      .then((data) => {
+        setTutors((data.data || []).slice(0, 6));
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
   if (loading) {
     return (
@@ -45,7 +57,13 @@ export default function FeaturedTutorsSection() {
     <section className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-medium mb-4">
             <Award className="w-4 h-4" />
             Top Rated Tutors
@@ -56,93 +74,96 @@ export default function FeaturedTutorsSection() {
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Learn from experienced educators who are passionate about helping you succeed
           </p>
-        </div>
+        </motion.div>
 
         {/* Tutors Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {tutors.map((tutor, index) => (
-            <Link
-              key={tutor.id}
-              href={`/tutors/${tutor.id}`}
-              className="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm dark:shadow-gray-900/50 hover:shadow-xl dark:hover:shadow-gray-900 transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              {/* Card Header */}
-              <div className="relative h-32 bg-gradient-to-br from-blue-500 to-indigo-600 dark:from-blue-600 dark:to-indigo-700 p-6">
-                {/* Profile Picture */}
-                <div className="absolute -bottom-10 left-6">
-                  <div className="w-20 h-20 rounded-full bg-white dark:bg-gray-800 border-4 border-white dark:border-gray-800 shadow-lg flex items-center justify-center">
-                    <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                     {tutor.user?.name || "Tutor"}
-                    </span>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
+        >
+          {tutors.map((tutor) => (
+            <motion.div key={tutor.id} variants={cardVariants}>
+              <Link
+                href={`/tutors/${tutor.id}`}
+                className="group block bg-white dark:bg-gray-800 rounded-2xl shadow-sm dark:shadow-gray-900/50 hover:shadow-xl dark:hover:shadow-gray-900 transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700"
+              >
+                {/* Card Header */}
+                <div className="relative h-32 bg-gradient-to-br from-blue-500 to-indigo-600 dark:from-blue-600 dark:to-indigo-700 p-6">
+                  <div className="absolute -bottom-10 left-6">
+                    <div className="w-20 h-20 rounded-full bg-white dark:bg-gray-800 border-4 border-white dark:border-gray-800 shadow-lg flex items-center justify-center">
+                      <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                        {tutor.user?.name?.charAt(0) || 'T'}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="absolute top-4 right-4 flex items-center gap-1 px-3 py-1 bg-white/20 dark:bg-black/20 backdrop-blur-sm rounded-full text-white">
+                    <Star className="w-4 h-4 fill-yellow-300 text-yellow-300" />
+                    <span className="font-semibold">{tutor.rating.toFixed(1)}</span>
                   </div>
                 </div>
 
-                {/* Rating Badge */}
-                <div className="absolute top-4 right-4 flex items-center gap-1 px-3 py-1 bg-white/20 dark:bg-black/20 backdrop-blur-sm rounded-full text-white">
-                  <Star className="w-4 h-4 fill-yellow-300 text-yellow-300" />
-                  <span className="font-semibold">{tutor.rating.toFixed(1)}</span>
-                </div>
-              </div>
-
-              {/* Card Body */}
-              <div className="pt-14 p-6 space-y-4">
-                {/* Name & Headline */}
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                   {tutor.user?.name || "Tutor"}
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{tutor.headline}</p>
-                </div>
-
-                {/* Stats */}
-                <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    <span>{tutor.totalSessions} sessions</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span>({tutor.totalReviews} reviews)</span>
-                  </div>
-                </div>
-
-                {/* Subjects */}
-                <div className="flex flex-wrap gap-2">
-                  {tutor.subjects.slice(0, 3).map((subject) => (
-                    <span
-                      key={subject}
-                      className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-medium rounded-full"
-                    >
-                      {subject}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Divider */}
-                <div className="border-t border-gray-100 dark:border-gray-700" />
-
-                {/* Price & CTA */}
-                <div className="flex items-center justify-between">
+                {/* Card Body */}
+                <div className="pt-14 p-6 space-y-4">
                   <div>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">Starting at</span>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                      ${tutor.hourlyRate}
-                      <span className="text-sm font-normal text-gray-500 dark:text-gray-400">/hr</span>
-                    </p>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {tutor.user?.name || 'Tutor'}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{tutor.headline}</p>
                   </div>
-                  
-                  <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold group-hover:gap-3 transition-all">
-                    View Profile
-                    <ArrowRight className="w-4 h-4" />
+
+                  <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-4 h-4" />
+                      <span>{tutor.totalSessions} sessions</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span>({tutor.totalReviews} reviews)</span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {tutor.subjects.slice(0, 3).map((subject) => (
+                      <span
+                        key={subject}
+                        className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-medium rounded-full"
+                      >
+                        {subject}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="border-t border-gray-100 dark:border-gray-700" />
+
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">Starting at</span>
+                      <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                        ${tutor.hourlyRate}
+                        <span className="text-sm font-normal text-gray-500 dark:text-gray-400">/hr</span>
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold group-hover:gap-3 transition-all">
+                      View Profile
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* View All Button */}
-        <div className="text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
           <Link
             href="/tutors"
             className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200"
@@ -150,7 +171,7 @@ export default function FeaturedTutorsSection() {
             View All Tutors
             <ArrowRight className="w-5 h-5" />
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

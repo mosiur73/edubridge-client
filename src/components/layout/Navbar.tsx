@@ -68,11 +68,7 @@ const Navbar = ({ className }: NavbarProps) => {
           <div className="flex items-center gap-16">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
-              <img
-                src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg"
-                className="max-h-8 dark:invert"
-                alt="logo"
-              />
+              
               <span className="text-lg font-semibold tracking-tighter">
                 EduBridge
               </span>

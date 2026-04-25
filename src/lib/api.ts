@@ -64,12 +64,24 @@ api.interceptors.response.use(
 // ==================== TUTOR API ====================
 
 export const tutorApi = {
+  // getAll: async (filters?: TutorFilters): Promise<TutorProfile[]> => {
+  //   const { data } = await api.get<ApiResponse<TutorProfile[]>>('/tutors', {
+  //     params: filters,
+  //   });
+  //   return data.data || [];
+  // },
   getAll: async (filters?: TutorFilters): Promise<TutorProfile[]> => {
-    const { data } = await api.get<ApiResponse<TutorProfile[]>>('/tutors', {
-      params: filters,
-    });
-    return data.data || [];
-  },
+  const { data } = await api.get<ApiResponse<TutorProfile[]>>('/tutors', {
+    params: {
+      search: filters?.search,
+      categoryId: filters?.category,
+      minRate: filters?.minPrice,
+      maxRate: filters?.maxPrice,
+      minRating: filters?.minRating,
+    },
+  });
+  return data.data || [];
+},
 
   getById: async (id: string): Promise<TutorProfile> => {
     const { data } = await api.get<ApiResponse<TutorProfile>>(`/tutors/${id}`);

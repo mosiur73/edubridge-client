@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowRight, Sparkles, BookOpen, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function HeroSection() {
   return (
@@ -9,52 +10,77 @@ export default function HeroSection() {
       {/* Background decoration */}
       <div className="absolute inset-0 bg-grid-white/[0.05] dark:bg-grid-white/[0.03] bg-[size:20px_20px]" />
       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 dark:from-black/40" />
-      
+
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 dark:bg-white/5 backdrop-blur-sm rounded-full border border-white/20 dark:border-white/10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 dark:bg-white/5 backdrop-blur-sm rounded-full border border-white/20 dark:border-white/10"
+            >
               <Sparkles className="w-4 h-4 text-yellow-300" />
               <span className="text-sm font-medium">Connect with 500+ Expert Tutors</span>
-            </div>
+            </motion.div>
 
             {/* Heading */}
-            <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight"
+            >
               Learn from the{' '}
               <span className="bg-gradient-to-r from-yellow-300 to-orange-400 text-transparent bg-clip-text">
                 Best Tutors
               </span>{' '}
               Worldwide
-            </h1>
+            </motion.h1>
 
             {/* Description */}
-            <p className="text-xl text-blue-100 dark:text-blue-200 leading-relaxed max-w-xl">
-              Book personalized one-on-one sessions with qualified tutors. 
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xl text-blue-100 dark:text-blue-200 leading-relaxed max-w-xl"
+            >
+              Book personalized one-on-one sessions with qualified tutors.
               Master any subject at your own pace with expert guidance.
-            </p>
+            </motion.p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link 
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <Link
                 href="/tutors"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-blue-600 dark:bg-gray-100 dark:text-blue-700 rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-200"
               >
                 Browse Tutors
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              
-              <Link 
+
+              <Link
                 href="/register"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 dark:bg-white/5 backdrop-blur-sm border-2 border-white/30 dark:border-white/20 text-white rounded-xl font-semibold text-lg hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-200"
               >
                 Become a Tutor
               </Link>
-            </div>
+            </motion.div>
 
             {/* Stats */}
-            <div className="flex items-center gap-8 pt-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex items-center gap-8 pt-4"
+            >
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
                   {[1, 2, 3, 4].map((i) => (
@@ -78,14 +104,23 @@ export default function HeroSection() {
                 <p className="text-2xl font-bold">4.9/5</p>
                 <p className="text-sm text-blue-200 dark:text-blue-300">Average Rating</p>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right Content - Floating Cards */}
-          <div className="hidden lg:block relative">
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="hidden lg:block relative"
+          >
             <div className="relative">
               {/* Main Card */}
-              <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl dark:shadow-gray-900/50 p-6 space-y-4 transform hover:scale-105 transition-transform duration-300">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl dark:shadow-gray-900/50 p-6 space-y-4"
+              >
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
                     <BookOpen className="w-8 h-8 text-white" />
@@ -99,15 +134,24 @@ export default function HeroSection() {
                   <span className="text-2xl font-bold text-gray-900 dark:text-white">$25-$80</span>
                   <span className="text-sm text-gray-500 dark:text-gray-400">per hour</span>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Floating Badge 1 */}
-              <div className="absolute -top-4 -right-4 bg-gradient-to-br from-green-400 to-emerald-500 text-white px-4 py-2 rounded-full shadow-lg font-semibold animate-bounce">
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute -top-4 -right-4 bg-gradient-to-br from-green-400 to-emerald-500 text-white px-4 py-2 rounded-full shadow-lg font-semibold"
+              >
                 🔥 Popular
-              </div>
+              </motion.div>
 
               {/* Floating Card 2 */}
-              <div className="absolute -bottom-8 -left-8 bg-gradient-to-br from-orange-500 to-red-500 text-white rounded-xl shadow-xl p-4 transform rotate-3 hover:rotate-0 transition-transform">
+              <motion.div
+                initial={{ rotate: 3 }}
+                whileHover={{ rotate: 0 }}
+                transition={{ type: 'spring', stiffness: 200 }}
+                className="absolute -bottom-8 -left-8 bg-gradient-to-br from-orange-500 to-red-500 text-white rounded-xl shadow-xl p-4"
+              >
                 <div className="flex items-center gap-2">
                   <Users className="w-5 h-5" />
                   <div>
@@ -115,13 +159,13 @@ export default function HeroSection() {
                     <p className="text-2xl font-bold">234</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Decorative circles */}
               <div className="absolute top-1/2 -right-12 w-24 h-24 bg-yellow-300 dark:bg-yellow-500 rounded-full opacity-20 dark:opacity-10 blur-2xl" />
               <div className="absolute bottom-0 -left-12 w-32 h-32 bg-purple-400 dark:bg-purple-600 rounded-full opacity-20 dark:opacity-10 blur-2xl" />
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 

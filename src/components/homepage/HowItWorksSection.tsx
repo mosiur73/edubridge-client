@@ -1,6 +1,7 @@
 'use client';
 
 import { Search, UserCheck, Calendar, Zap } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const steps = [
   {
@@ -47,7 +48,13 @@ export default function HowItWorksSection() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-600 dark:text-blue-400 rounded-full font-medium mb-4">
             <Zap className="w-4 h-4" />
             Simple Process
@@ -58,11 +65,11 @@ export default function HowItWorksSection() {
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Get started in just 4 simple steps. From browsing to learning, we've made it incredibly easy.
           </p>
-        </div>
+        </motion.div>
 
         {/* Steps Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-          {/* Connection Lines (Desktop only) */}
+          {/* Connection Lines */}
           <div className="hidden lg:block absolute top-24 left-0 right-0 h-1">
             <div className="relative h-full">
               <div className="absolute top-0 left-[12.5%] right-[12.5%] h-full bg-gradient-to-r from-blue-200 via-purple-200 via-orange-200 to-green-200 dark:from-blue-800 dark:via-purple-800 dark:via-orange-800 dark:to-green-800 rounded-full opacity-50" />
@@ -70,12 +77,14 @@ export default function HowItWorksSection() {
           </div>
 
           {steps.map((step, index) => (
-            <div
+            <motion.div
               key={index}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
               className="relative group"
-              style={{ animationDelay: `${index * 150}ms` }}
             >
-              {/* Card */}
               <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm dark:shadow-gray-900/50 hover:shadow-xl dark:hover:shadow-gray-900 transition-all duration-300 border border-gray-100 dark:border-gray-700 h-full">
                 {/* Step Number */}
                 <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-gray-800 to-gray-900 dark:from-gray-700 dark:to-gray-800 text-white rounded-full flex items-center justify-center font-bold shadow-lg z-10">
@@ -83,13 +92,16 @@ export default function HowItWorksSection() {
                 </div>
 
                 {/* Icon */}
-                <div className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br ${step.color} p-0.5 mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                  className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br ${step.color} p-0.5 mb-6`}
+                >
                   <div className="w-full h-full bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center">
                     <step.icon className={`w-8 h-8 ${step.textColor}`} />
                   </div>
-                </div>
+                </motion.div>
 
-                {/* Content */}
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
                   {step.title}
                 </h3>
@@ -97,15 +109,20 @@ export default function HowItWorksSection() {
                   {step.description}
                 </p>
 
-                {/* Decorative Element */}
                 <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${step.color} rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-16 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-16 text-center"
+        >
           <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl border border-blue-100 dark:border-blue-800">
             <div className="flex-1 text-left">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
@@ -115,11 +132,15 @@ export default function HowItWorksSection() {
                 Join thousands of students already learning with EduBridge
               </p>
             </div>
-            <button className="px-8 py-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 whitespace-nowrap">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 whitespace-nowrap"
+            >
               Create Free Account
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
