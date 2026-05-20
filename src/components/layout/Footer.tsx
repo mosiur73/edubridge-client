@@ -1,48 +1,70 @@
 import Link from 'next/link';
+import { BookOpen, Mail, Phone, MapPin, Twitter, Linkedin, Facebook, Instagram } from 'lucide-react';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-primary/5 border-t border-border">
+    <footer className="bg-gray-900 dark:bg-gray-950 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
-        <div className="grid md:grid-cols-4 gap-8 py-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 py-16">
+          
           {/* Brand */}
-          <div className="space-y-4">
+          <div className="space-y-5 lg:col-span-1">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/60 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">SB</span>
+              <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center">
+                <BookOpen className="w-5 h-5 text-white" />
               </div>
-              <span className="font-bold text-lg text-foreground">EduBridge</span>
+              <span className="font-bold text-xl text-white">EduBridge</span>
             </Link>
-            <p className="text-sm text-foreground/60">
-              Connecting learners with expert tutors. Learn anything, anytime, anywhere.
+            <p className="text-sm text-gray-400 leading-relaxed">
+              Connecting learners with expert tutors. Learn anything, anytime, anywhere with personalized one-on-one sessions.
             </p>
+            {/* Contact Info */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <Mail className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                <span>support@edubridge.com</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <Phone className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                <span>+1 (555) 123-4567</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <MapPin className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                <span>Dhaka, Bangladesh</span>
+              </div>
+            </div>
           </div>
 
           {/* For Students */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-foreground">For Students</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="font-semibold text-white text-base">For Students</h4>
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
+                <Link href="/tutors" className="text-gray-400 hover:text-blue-400 transition-colors">
                   Browse Tutors
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
+                <Link href="/dashboard/bookings" className="text-gray-400 hover:text-blue-400 transition-colors">
                   My Bookings
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
-                  Pricing
+                <Link href="/dashboard/reviews" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  My Reviews
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
-                  FAQ
+                <Link href="/dashboard" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  Student Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link href="/register" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  Sign Up Free
                 </Link>
               </li>
             </ul>
@@ -50,26 +72,26 @@ export function Footer() {
 
           {/* For Tutors */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-foreground">For Tutors</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="font-semibold text-white text-base">For Tutors</h4>
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
+                <Link href="/register" className="text-gray-400 hover:text-blue-400 transition-colors">
                   Become a Tutor
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
+                <Link href="/tutor-dashboard" className="text-gray-400 hover:text-blue-400 transition-colors">
                   Tutor Dashboard
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
-                  Earnings
+                <Link href="/tutor-dashboard/profile" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  Tutor Profile
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
-                  Resources
+                <Link href="/tutor-dashboard/availability" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  Set Availability
                 </Link>
               </li>
             </ul>
@@ -77,26 +99,26 @@ export function Footer() {
 
           {/* Company */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-foreground">Company</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="font-semibold text-white text-base">Company</h4>
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
+                <Link href="/about" className="text-gray-400 hover:text-blue-400 transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
+                <Link href="/contact" className="text-gray-400 hover:text-blue-400 transition-colors">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
-                  Privacy Policy
+                <Link href="/tutors" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  Find a Tutor
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
-                  Terms of Service
+                <Link href="/#faq" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  FAQ
                 </Link>
               </li>
             </ul>
@@ -104,27 +126,45 @@ export function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-border py-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-foreground/60">
+        <div className="border-t border-gray-800 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-gray-500">
             © {currentYear} EduBridge. All rights reserved.
           </p>
-          <div className="flex gap-6">
-            <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
-              <span className="sr-only">Twitter</span>
-              <span className="text-lg">𝕏</span>
-            </Link>
-            <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
-              <span className="sr-only">LinkedIn</span>
-              <span className="text-lg">in</span>
-            </Link>
-            <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
-              <span className="sr-only">Facebook</span>
-              <span className="text-lg">f</span>
-            </Link>
-            <Link href="#" className="text-foreground/60 hover:text-foreground transition-colors">
-              <span className="sr-only">Instagram</span>
-              <span className="text-lg">📷</span>
-            </Link>
+
+          {/* Social Links */}
+          <div className="flex items-center gap-4">
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-9 h-9 bg-gray-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
+            >
+              <Twitter className="w-4 h-4" />
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-9 h-9 bg-gray-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
+            >
+              <Linkedin className="w-4 h-4" />
+            </a>
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-9 h-9 bg-gray-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
+            >
+              <Facebook className="w-4 h-4" />
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-9 h-9 bg-gray-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
+            >
+              <Instagram className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </div>

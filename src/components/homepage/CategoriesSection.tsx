@@ -47,11 +47,6 @@ const gradients = [
   'from-teal-500 to-cyan-500',
 ];
 
-const stats = [
-  { value: '500+', label: 'Expert Tutors' },
-  { value: '50+', label: 'Subjects Covered' },
-  { value: '10k+', label: 'Sessions Completed' },
-];
 
 export default function CategoriesSection() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -161,29 +156,7 @@ export default function CategoriesSection() {
           })}
         </div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="grid sm:grid-cols-3 gap-px bg-blue-100 dark:bg-blue-900/30 rounded-2xl overflow-hidden shadow-lg mb-12"
-        >
-          {stats.map((stat, i) => (
-            <div key={i} className="bg-gradient-to-br from-blue-600 to-indigo-700 dark:from-blue-700 dark:to-indigo-800 p-8 text-center text-white">
-              <motion.div
-                initial={{ scale: 0.5, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="text-4xl lg:text-5xl font-bold mb-2"
-              >
-                {stat.value}
-              </motion.div>
-              <div className="text-blue-100">{stat.label}</div>
-            </div>
-          ))}
-        </motion.div>
+      
 
         {/* CTA */}
         <motion.div

@@ -72,7 +72,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
         }
 
         // toast.success("User Created Successfully", { id: toastId });
-         toast.success("Account created successfully. Please login.", {
+         toast.success("Account created successfully.", {
       id: toastId,
     });
     setTimeout(() => {
